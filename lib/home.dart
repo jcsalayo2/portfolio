@@ -42,13 +42,18 @@ class _Home extends State<Home> {
                     width: isPortrait ? null : 600,
                     alignment: isPortrait ? null : Alignment.centerLeft,
                     child: Image.asset(
-                      'image.png',
+                      portraitPNG,
                       height: 600,
                     ),
                   ),
                 ),
                 const Positioned.fill(
                     child: Center(child: HeaderAboutRichText())),
+                const Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: HeaderLinkIcons(),
+                )
               ]),
               const SizedBox(
                 height: 50,
@@ -57,11 +62,105 @@ class _Home extends State<Home> {
                 color: Colors.amber,
               ),
               AboutMe(isPortrait: isPortrait),
-              // About
+              const SizedBox(
+                height: 50,
+              ),
+              Skills(isPortrait: isPortrait, width: width)
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class Skills extends StatelessWidget {
+  const Skills({
+    super.key,
+    required this.isPortrait,
+    required this.width,
+  });
+
+  final bool isPortrait;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text(
+          "Skills",
+          style: TextStyle(
+              fontSize: 36,
+              color: Colors.amber,
+              fontFamily: 'PlayFair',
+              fontVariations: [FontVariation('wght', 800)]),
+        ),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: isPortrait ? 0 : width * 0.1),
+          child: Center(
+            child: Wrap(
+              children: skills
+                  .map(
+                    (e) => Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: const EdgeInsets.all(10),
+                      height: 200,
+                      width: 200,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            e.asset,
+                            height: 80,
+                          ),
+                          Text(e.name, style: const TextStyle(fontSize: 20)),
+                          Text("${e.year} year/s",
+                              style: const TextStyle(fontSize: 20)),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class HeaderLinkIcons extends StatelessWidget {
+  const HeaderLinkIcons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Image.asset(
+          linkedinPNG,
+          height: 40,
+          color: Colors.amber,
+        ),
+        SizedBox(height: 5),
+        Image.asset(
+          githubPNG,
+          height: 40,
+          color: Colors.amber,
+        ),
+        SizedBox(height: 5),
+        Image.asset(
+          fbPNG,
+          height: 40,
+          color: Colors.amber,
+        ),
+      ],
     );
   }
 }
@@ -107,32 +206,6 @@ class AboutMe extends StatelessWidget {
   }
 }
 
-class HeaderAboutPortrait {
-  const HeaderAboutPortrait();
-}
-
-class HeaderAbout extends StatelessWidget {
-  const HeaderAbout({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        // Name
-        HeaderAboutRichText(),
-        // Image
-        Image.asset(
-          'image.png',
-          height: 600,
-        )
-      ],
-    );
-  }
-}
-
 class HeaderAboutRichText extends StatelessWidget {
   const HeaderAboutRichText({
     super.key,
@@ -146,7 +219,7 @@ class HeaderAboutRichText extends StatelessWidget {
       children: [
         TextSpan(text: "I'M "),
         TextSpan(
-          text: "James Carlo\n",
+          text: "James\n",
           style: TextStyle(
               fontSize: 46,
               color: Colors.amber,
