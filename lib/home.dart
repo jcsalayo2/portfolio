@@ -14,6 +14,8 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     bool isPortrait =
         MediaQuery.of(context).size.width <= MediaQuery.of(context).size.height;
     return Scaffold(
@@ -21,30 +23,85 @@ class _Home extends State<Home> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          padding:
+              EdgeInsets.symmetric(horizontal: width * 0.125, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               const Header(),
               const SizedBox(
                 height: 100,
               ),
-              if (isPortrait) ...[
-                Stack(children: <Widget>[
-                  Image.asset(
-                    'image.png',
+              Stack(children: <Widget>[
+                Align(
+                  alignment:
+                      isPortrait ? Alignment.centerLeft : Alignment.center,
+                  child: Container(
                     height: 600,
+                    width: isPortrait ? null : 600,
+                    alignment: isPortrait ? null : Alignment.centerLeft,
+                    child: Image.asset(
+                      'image.png',
+                      height: 600,
+                    ),
                   ),
-                  Positioned.fill(child: Center(child: HeaderAboutRichText())),
-                ])
-              ] else ...[
-                const HeaderAbout(),
-              ]
+                ),
+                const Positioned.fill(
+                    child: Center(child: HeaderAboutRichText())),
+              ]),
+              const SizedBox(
+                height: 50,
+              ),
+              const Divider(
+                color: Colors.amber,
+              ),
+              AboutMe(isPortrait: isPortrait),
               // About
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AboutMe extends StatelessWidget {
+  const AboutMe({
+    super.key,
+    required this.isPortrait,
+  });
+
+  final bool isPortrait;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: isPortrait ? 0 : 120),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "About Me",
+            style: TextStyle(
+                fontSize: 36,
+                color: Colors.amber,
+                fontFamily: 'PlayFair',
+                fontVariations: [FontVariation('wght', 800)]),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 40),
+            child: Text(
+              aboutMe,
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                // fontVariations: [FontVariation('wght', 800)],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
