@@ -63,6 +63,9 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
+  assets:
+     - assets/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -85,6 +88,20 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+  - family: OpenSans
+    fonts:
+      - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
+        style: italic
+      - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
+      - asset: fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf
+        style: italic
+      - asset: fonts/PlayfairDisplay-VariableFont_wght.ttf
+  - family: PlayFair
+    fonts:
+      - asset: fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf
+        style: italic
+      - asset: fonts/PlayfairDisplay-VariableFont_wght.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
