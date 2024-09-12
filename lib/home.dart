@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant.dart';
 import 'package:portfolio/main.dart';
+import 'package:portfolio/model/skill_model.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -65,10 +67,141 @@ class _Home extends State<Home> {
               const SizedBox(
                 height: 50,
               ),
-              Skills(isPortrait: isPortrait, width: width)
+              Skills(isPortrait: isPortrait, width: width),
+              const Divider(
+                color: Colors.amber,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: isPortrait ? 0 : 120),
+                child: const Text(
+                  "Employement History",
+                  style: TextStyle(
+                      fontSize: 36,
+                      color: Colors.amber,
+                      fontFamily: 'PlayFair',
+                      fontVariations: [FontVariation('wght', 800)]),
+                ),
+              ),
+
+              EmployementHistoryTimeline(isPortrait: isPortrait),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Column(
+              //       children: [
+              //         for (var i = 0; i < employementHistory.length; i++) ...[
+              //           if (i % 2 == 0) ...[
+
+              //           ]
+              //         ],
+              //       ],
+              //     ),
+              //     // Column(
+              //     //   children: [
+              //     //     const Text(
+              //     //       "Present",
+              //     //       style: TextStyle(
+              //     //           fontSize: 12,
+              //     //           color: Colors.white,
+              //     //           fontFamily: 'PlayFair',
+              //     //           fontVariations: [FontVariation('wght', 800)]),
+              //     //     ),
+              //     //     Container(
+              //     //       width: 10,
+              //     //       height: 200,
+              //     //       child: const VerticalDivider(
+              //     //         color: Colors.amber,
+              //     //         thickness: 2,
+              //     //       ),
+              //     //     ),
+              //     //   ],
+              //     // ),
+              //     // Column(
+              //     //   children: [
+              //     //     Icon(
+              //     //       Icons.arrow_back,
+              //     //       color: Colors.amber,
+              //     //     ),
+              //     //   ],
+              //     // )
+              //   ],
+              // )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class EmployementHistoryTimeline extends StatelessWidget {
+  const EmployementHistoryTimeline({
+    super.key,
+    required this.isPortrait,
+  });
+
+  final bool isPortrait;
+
+  @override
+  Widget build(BuildContext context) {
+    return Timeline.tileBuilder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      theme: TimelineThemeData(
+        color: Colors.amber,
+        nodePosition: isPortrait ? 0.2 : null,
+      ),
+      builder: TimelineTileBuilder.fromStyle(
+        indicatorStyle: IndicatorStyle.outlined,
+        contentsAlign:
+            isPortrait ? ContentsAlign.basic : ContentsAlign.alternating,
+        contentsBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                employementHistory[index].title,
+                style: const TextStyle(
+                    color: Colors.amber, fontFamily: "PlayFair", fontSize: 22),
+              ),
+              for (var description
+                  in employementHistory[index].description) ...[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 6, right: 5),
+                      child: Icon(
+                        Icons.circle,
+                        size: 10,
+                        color: Colors.amber,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        softWrap: true,
+                        description,
+                        style: const TextStyle(
+                            fontFamily: "Quicksand",
+                            color: Colors.white,
+                            fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ]
+            ],
+          ),
+        ),
+        oppositeContentsBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            employementHistory[index].range,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+        itemCount: employementHistory.length,
       ),
     );
   }
@@ -103,24 +236,36 @@ class Skills extends StatelessWidget {
             child: Wrap(
               children: skills
                   .map(
-                    (e) => Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: const EdgeInsets.all(10),
+                    (e) =>
+                        // SkillContainer(),
+                        Container(
+                      margin: EdgeInsets.only(bottom: 15),
                       height: 200,
                       width: 200,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset(
-                            e.asset,
-                            height: 80,
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            height: 140,
+                            width: 140,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.amber, width: 2)),
+                            child: Image.asset(
+                              e.asset,
+                            ),
                           ),
-                          Text(e.name, style: const TextStyle(fontSize: 20)),
-                          Text("${e.year} year/s",
-                              style: const TextStyle(fontSize: 20)),
+                          Text(e.name,
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontFamily: "Quicksand")),
+                          Text("${e.year} ${e.year > 1 ? "YEARS" : "YEAR"}",
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontFamily: "Quicksand")),
                         ],
                       ),
                     ),
@@ -130,6 +275,38 @@ class Skills extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class SkillContainer extends StatelessWidget {
+  const SkillContainer({
+    super.key,
+    required this.e,
+  });
+
+  final Skill e;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      margin: const EdgeInsets.all(10),
+      height: 200,
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset(
+            e.asset,
+            height: 80,
+          ),
+          Text(e.name, style: const TextStyle(fontSize: 20)),
+          Text("${e.year} year/s", style: const TextStyle(fontSize: 20)),
+        ],
+      ),
     );
   }
 }
