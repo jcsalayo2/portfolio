@@ -12,7 +12,7 @@ TextStyle textHeader = const TextStyle(
 );
 
 const String aboutMe =
-    "Experienced IT professional and software developer with over 4 years of industry experience. Skilled in designing and implementing innovative software solutions, optimizing system performance, and delivering high-quality products. Strong problem-solving and communication abilities, committed to staying updated with industry trends.";
+    "Experienced IT professional and software developer with over 5 years of industry experience. Skilled in designing and implementing innovative software solutions, optimizing system performance, and delivering high-quality products. Strong problem-solving and communication abilities, committed to staying updated with industry trends.";
 
 // Links
 const linkedinPNG = "icons/linkedin.png";
@@ -33,12 +33,12 @@ const sqLitePNG = "icons/sqlite.png";
 const vbDotNet = "icons/vbdotnet.png";
 
 List<Skill> skills = [
-  Skill(year: 4, asset: flutterPNG, name: "Flutter / Dart"),
-  Skill(year: 4, asset: fireBasePNG, name: "Firebase"),
-  Skill(year: 4, asset: cSharpPNG, name: "C#"),
-  Skill(year: 4, asset: dotNetPNG, name: ".NET"),
-  Skill(year: 4, asset: mySqlPNG, name: "MySQL"),
-  Skill(year: 4, asset: gitPNG, name: "Git"),
+  Skill(year: 5, asset: flutterPNG, name: "Flutter / Dart"),
+  Skill(year: 5, asset: fireBasePNG, name: "Firebase"),
+  Skill(year: 5, asset: cSharpPNG, name: "C#"),
+  Skill(year: 5, asset: dotNetPNG, name: ".NET"),
+  Skill(year: 5, asset: mySqlPNG, name: "MySQL"),
+  Skill(year: 5, asset: gitPNG, name: "Git"),
   Skill(year: 3, asset: vbDotNet, name: "VB.NET"),
   Skill(year: 1, asset: sqLitePNG, name: "SQLite"),
 ];
