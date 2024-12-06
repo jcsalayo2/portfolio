@@ -12,25 +12,29 @@ String skillToJson(List<Skill> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Skill {
-  int year;
+  int years;
   String name;
   String asset;
+  int order;
 
   Skill({
-    required this.year,
+    required this.years,
     required this.name,
     required this.asset,
+    required this.order,
   });
 
   factory Skill.fromJson(Map<String, dynamic> json) => Skill(
-        year: json["year"],
+        years: json["years"],
         name: json["name"],
         asset: json["asset"],
+        order: json["order"],
       );
 
   Map<String, dynamic> toJson() => {
-        "year": year,
+        "years": years,
         "name": name,
         "asset": asset,
+        "order": order,
       };
 }

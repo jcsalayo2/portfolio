@@ -16,11 +16,13 @@ class EmployementHistory {
   String range;
   String title;
   List<String> description;
+  int order;
 
   EmployementHistory({
     required this.range,
     required this.title,
     required this.description,
+    required this.order,
   });
 
   factory EmployementHistory.fromJson(Map<String, dynamic> json) =>
@@ -28,11 +30,13 @@ class EmployementHistory {
         range: json["range"],
         title: json["title"],
         description: List<String>.from(json["description"].map((x) => x)),
+        order: json["order"],
       );
 
   Map<String, dynamic> toJson() => {
         "range": range,
         "title": title,
         "description": List<dynamic>.from(description.map((x) => x)),
+        "order": order,
       };
 }

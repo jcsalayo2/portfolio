@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040105162322",
+    "project_id": "jsalayo-portfolio",
+    "storage_bucket": "jsalayo-portfolio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040105162322:android:50920a8cb714095ea5418b",
+        "android_client_info": {
+          "package_name": "com.jcsalayo.me"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHsT16EjjgmMKOe0Q1QT7YpDbpKWtyekw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
