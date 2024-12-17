@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/constant.dart';
 import 'package:portfolio/main.dart';
 import 'package:portfolio/model/employement_history_model.dart';
+import 'package:portfolio/model/projects.dart';
 import 'package:portfolio/model/skill_model.dart';
 import 'package:portfolio/service/employement_history_service.dart';
 import 'package:portfolio/service/portrait_service.dart';
+import 'package:portfolio/service/previous_projects_service.dart';
 import 'package:portfolio/service/skill_service.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:timelines_plus/timelines_plus.dart';
@@ -19,6 +21,9 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  final aboutMeKey = GlobalKey();
+  final projectsKey = GlobalKey();
+  final contactKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -26,6 +31,14 @@ class _Home extends State<Home> {
     bool isPortrait =
         MediaQuery.of(context).size.width <= MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 50),
+        child: Header(
+          aboutMeKey: aboutMeKey,
+          projectsKey: projectsKey,
+          contactKey: contactKey,
+        ),
+      ),
       backgroundColor: Color.fromARGB(255, 51, 51, 51),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -36,7 +49,6 @@ class _Home extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Header(),
               const SizedBox(
                 height: 100,
               ),
@@ -76,7 +88,7 @@ class _Home extends State<Home> {
               const Divider(
                 color: Colors.amber,
               ),
-              AboutMe(isPortrait: isPortrait),
+              AboutMe(isPortrait: isPortrait, aboutMeKey: aboutMeKey),
               const SizedBox(
                 height: 50,
               ),
@@ -107,15 +119,16 @@ class _Home extends State<Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
+                      key: projectsKey,
                       "Previous Projects",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 36,
                           color: Colors.amber,
                           fontFamily: 'PlayFair',
                           fontVariations: [FontVariation('wght', 800)]),
                     ),
-                    NavRail(),
+                    NavRail(isPortrait: isPortrait),
                   ],
                 ),
               )
@@ -127,59 +140,83 @@ class _Home extends State<Home> {
   }
 }
 
-class NavRail extends StatefulWidget {
+class NavRail extends StatelessWidget {
   const NavRail({
     super.key,
+    required this.isPortrait,
   });
 
-  @override
-  State<NavRail> createState() => _NavRailState();
-}
+  final bool isPortrait;
 
-class _NavRailState extends State<NavRail> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TabContainer(
-          borderRadius: BorderRadius.circular(10),
-          tabEdge: TabEdge.top,
-          curve: Curves.easeIn,
-          transitionBuilder: (child, animation) {
-            animation =
-                CurvedAnimation(curve: Curves.easeIn, parent: animation);
-            return SlideTransition(
-              position: Tween(
-                begin: const Offset(0.2, 0.0),
-                end: const Offset(0.0, 0.0),
-              ).animate(animation),
-              child: FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
-            );
-          },
-          // colors: const <Color>[
-          //   Color(0xfffa86be),
-          //   Color(0xfffa86be),
-          //   Color(0xfffa86be),
-          // ],
-          color: Colors.amber[100],
-          // selectedTextStyle: textTheme.bodyMedium?.copyWith(fontSize: 15.0),
-          // unselectedTextStyle: textTheme.bodyMedium?.copyWith(fontSize: 13.0),
-          tabs: [
-            Text("Accupay"),
-            Text("BunBuy"),
-            Text("KuicBuy"),
-          ],
-          children: [
-            Text("Accupay HERE"),
-            Text("BunBuy HERE"),
-            Text("KuicBuy HERE")
-          ],
-        ),
+        FutureBuilder<List<Project>>(
+            future: PreviousProjectsService().getPreviousProjects(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return Container();
+              }
+              List<Widget> tabTitle = [];
+              List<Widget> tabContent = [];
+              for (var project in snapshot.data!) {
+                tabTitle.add(Text(project.name));
+                tabContent.add(ProjectContent(project: project));
+              }
+              return TabContainer(
+                borderRadius: BorderRadius.circular(10),
+                tabEdge: isPortrait ? TabEdge.left : TabEdge.top,
+                curve: Curves.easeIn,
+                transitionBuilder: (child, animation) {
+                  animation =
+                      CurvedAnimation(curve: Curves.easeIn, parent: animation);
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                // colors: const <Color>[
+                //   Color(0xfffa86be),
+                //   Color(0xfffa86be),
+                //   Color(0xfffa86be),
+                // ],
+                color: Colors.amber[100],
+                // selectedTextStyle: textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+                // unselectedTextStyle: textTheme.bodyMedium?.copyWith(fontSize: 13.0),
+                tabs: tabTitle,
+                children: tabContent,
+              );
+            }),
       ],
+    );
+  }
+
+  Widget ProjectContent({required Project project}) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Text(
+            "Description",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          Text(project.description),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            "Technologies",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          Text(project.technologies.join(", ")),
+        ],
+      ),
     );
   }
 }
@@ -414,17 +451,19 @@ class AboutMe extends StatelessWidget {
   const AboutMe({
     super.key,
     required this.isPortrait,
+    required this.aboutMeKey,
   });
-
+  final GlobalKey aboutMeKey;
   final bool isPortrait;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: isPortrait ? 0 : 120),
-      child: const Column(
+      child: Column(
+        key: aboutMeKey,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: const [
           Text(
             "About Me",
             style: TextStyle(
@@ -482,7 +521,14 @@ class HeaderAboutRichText extends StatelessWidget {
 class Header extends StatelessWidget {
   const Header({
     super.key,
+    required this.aboutMeKey,
+    required this.projectsKey,
+    required this.contactKey,
   });
+
+  final GlobalKey aboutMeKey;
+  final GlobalKey projectsKey;
+  final GlobalKey contactKey;
 
   @override
   Widget build(BuildContext context) {
@@ -490,21 +536,27 @@ class Header extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Scrollable.ensureVisible(aboutMeKey.currentContext!);
+            },
             child: Text(
               'About',
               style: textHeader,
             )),
         const SizedBox(width: 20),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Scrollable.ensureVisible(projectsKey.currentContext!);
+            },
             child: Text(
-              'Portfolio',
+              'Projects',
               style: textHeader,
             )),
         const SizedBox(width: 20),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Scrollable.ensureVisible(contactKey.currentContext!);
+            },
             child: Text(
               'Contacts',
               style: textHeader,

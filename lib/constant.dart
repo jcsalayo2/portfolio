@@ -21,11 +21,11 @@ const githubPNG = "icons/github.png";
 const fbPNG = "icons/fb.png";
 
 
-List<Project> previousProjects = [
-  Project(name: "Accupay" , image: "null", description: "description here", duration: "3 Years"),
-  Project(name: "BunBuy" , image: "null", description: "description here", duration: "1 Year"),
-  Project(name: "Glovebox Buddy" , image: "null", description: "description here", duration: "6 Month"),
-  Project(name: "Allwin Ordering App" , image: "null", description: "description here", duration: "6 Month"),
-  Project(name: "Gi-Todo" , image: "null", description: "description here", duration: "2 Month"),
-  Project(name: "KuicBuy" , image: "null", description: "description here", duration: "2 Month"),
-];
+// List<Project> previousProjects = [
+//   Project(name: "Accupay" , image: "null", description: "description here", duration: "3 Years"),
+//   Project(name: "BunBuy" , image: "null", description: "description here", duration: "1 Year"),
+//   Project(name: "Glovebox Buddy" , image: "null", description: "description here", duration: "6 Month"),
+//   Project(name: "Allwin Ordering App" , image: "null", description: "description here", duration: "1 Year"),
+//   Project(name: "Gi-Todo" , image: "null", description: "description here", duration: "2 Month"),
+//   Project(name: "KuicBuy" , image: "null", description: "description here", duration: "2 Month"),
+// ];
