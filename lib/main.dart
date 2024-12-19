@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const Home(title: 'Portfolio'),
+      home: SelectionArea(child: const Home(title: 'Portfolio')),
     );
   }
 }
