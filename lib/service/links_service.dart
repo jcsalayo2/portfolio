@@ -3,19 +3,20 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:portfolio/model/employement_history_model.dart';
 import 'package:portfolio/model/projects.dart';
 
-class PreviousProjectsService {
+import '../model/links.dart';
+
+class LinksService {
   final CollectionReference products =
-      FirebaseFirestore.instance.collection('previousProjects');
+      FirebaseFirestore.instance.collection('links');
 
   final storage = FirebaseStorage.instance;
 
-  Future<List<Project>> getPreviousProjects() async {
+  Future<List<Link>> getLinksProjects() async {
     var qSnapShot = await products.get();
-    var projects = qSnapShot.docs.map((doc) {
+    var history = qSnapShot.docs.map((doc) {
       Object? response = doc.data();
-      return Project.fromJson(response as Map<String, dynamic>);
+      return Link.fromJson(response as Map<String, dynamic>);
     }).toList();
-    projects.sort((a, b) => a.order.compareTo(b.order));
-    return projects;
+    return history;
   }
 }

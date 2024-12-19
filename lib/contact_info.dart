@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant.dart';
+import 'package:portfolio/header_link_icons.dart';
 
 class ContactInfo extends StatelessWidget {
   const ContactInfo({super.key, required bool isPortrait});
@@ -14,37 +15,14 @@ class ContactInfo extends StatelessWidget {
             valueFields(),
           ],
         ),
-        contactIcons()
-      ],
-    );
-  }
-
-  Row contactIcons() {
-    return Row(
-      children: [
-        Image.asset(
-          linkedinPNG,
-          height: 40,
-          color: Colors.amber,
-        ),
-        SizedBox(width: 5),
-        Image.asset(
-          githubPNG,
-          height: 40,
-          color: Colors.amber,
-        ),
-        SizedBox(width: 5),
-        Image.asset(
-          fbPNG,
-          height: 40,
-          color: Colors.amber,
-        ),
+        // contactIcons()
+        const HeaderLinkIcons(isHorizontal: true),
       ],
     );
   }
 
   Column valueFields() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -68,7 +46,7 @@ class ContactInfo extends StatelessWidget {
   }
 
   Column titleFields() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
