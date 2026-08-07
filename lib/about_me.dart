@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/constant.dart';
+import 'package:portfolio/service/strings_service.dart';
 
 class AboutMe extends StatelessWidget {
   const AboutMe({
@@ -17,8 +17,8 @@ class AboutMe extends StatelessWidget {
       child: Column(
         key: aboutMeKey,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: [
+          const Text(
             "About Me",
             style: TextStyle(
                 fontSize: 36,
@@ -27,15 +27,22 @@ class AboutMe extends StatelessWidget {
                 fontVariations: [FontVariation('wght', 800)]),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 40),
-            child: Text(
-              aboutMe,
-              textAlign: TextAlign.justify,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                // fontVariations: [FontVariation('wght', 800)],
-              ),
+            padding: const EdgeInsets.only(left: 40),
+            child: FutureBuilder<String>(
+              future: StringsService().getAboutMe(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const SizedBox.shrink();
+                }
+                return Text(
+                  snapshot.data ?? '',
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                );
+              },
             ),
           ),
         ],

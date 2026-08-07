@@ -5,6 +5,7 @@ import 'package:portfolio/firebase_options.dart';
 import 'home.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: SelectionArea(child: const Home(title: 'Portfolio')),
+      home:
+          const SafeArea(child: SelectionArea(child: Home(title: 'Portfolio'))),
     );
   }
 }

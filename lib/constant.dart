@@ -9,10 +9,7 @@ TextStyle textHeader = const TextStyle(
   fontVariations: [FontVariation('wght', 500)],
 );
 
-const String aboutMe =
-    "Experienced IT professional and software developer with over 5 years of industry experience. Skilled in designing and implementing innovative software solutions, optimizing system performance, and delivering high-quality products. Strong problem-solving and communication abilities, committed to staying updated with industry trends.";
-
 // Links
-const linkedinPNG = "icons/linkedin.png";
-const githubPNG = "icons/github.png";
-const fbPNG = "icons/fb.png";
+const linkedinPNG = "assets/icons/linkedin.png";
+const githubPNG = "assets/icons/github.png";
+const fbPNG = "assets/icons/fb.png";

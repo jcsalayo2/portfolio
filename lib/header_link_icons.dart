@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant.dart';
 import 'package:portfolio/model/links.dart';
 import 'package:portfolio/service/links_service.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 class HeaderLinkIcons extends StatelessWidget {
   const HeaderLinkIcons({
@@ -53,7 +55,11 @@ class HeaderLinkIcons extends StatelessWidget {
   InkWell fb(String fbLink) {
     return InkWell(
       onTap: () {
-        html.window.open(fbLink, 'new tab');
+        if (kIsWeb) {
+          html.window.open(fbLink, 'new tab');
+        } else {
+          launchInBrowserView(Uri.parse(fbLink));
+        }
       },
       child: Image.asset(
         fbPNG,
@@ -66,7 +72,11 @@ class HeaderLinkIcons extends StatelessWidget {
   InkWell github(String githubLink) {
     return InkWell(
       onTap: () {
-        html.window.open(githubLink, 'new tab');
+        if (kIsWeb) {
+          html.window.open(githubLink, 'new tab');
+        } else {
+          launchInBrowserView(Uri.parse(githubLink));
+        }
       },
       child: Image.asset(
         githubPNG,
@@ -79,13 +89,24 @@ class HeaderLinkIcons extends StatelessWidget {
   InkWell linkedin(String linkedinLink) {
     return InkWell(
       onTap: () {
-        html.window.open(linkedinLink, 'new tab');
+        if (kIsWeb) {
+          html.window.open(linkedinLink, 'new tab');
+        } else {
+          launchInBrowserView(Uri.parse(linkedinLink));
+        }
       },
       child: Image.asset(
         linkedinPNG,
         height: 40,
         color: Colors.amber,
+        fit: BoxFit.contain,
       ),
     );
+  }
+}
+
+Future<void> launchInBrowserView(Uri url) async {
+  if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+    throw Exception('Could not launch $url');
   }
 }

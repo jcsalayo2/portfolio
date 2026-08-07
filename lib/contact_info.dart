@@ -9,44 +9,47 @@ class ContactInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        Column(
           children: [
-            titleFields(),
-            valueFields(),
+            fullName(),
+            mobileNumber(),
           ],
         ),
         // contactIcons()
-        const HeaderLinkIcons(isHorizontal: true),
+        HeaderLinkIcons(isHorizontal: true),
       ],
     );
   }
 
-  Column valueFields() {
-    return const Column(
+  Row mobileNumber() {
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "James Carlo Desipida Salayo",
+          "Mobile Number : ",
           style: TextStyle(
             fontSize: 18,
-            color: Colors.amber,
-            fontVariations: [FontVariation('wght', 800)],
+            color: Colors.white,
+            fontVariations: [FontVariation('wght', 400)],
           ),
         ),
-        Text(
-          "+639611400124(Smart), +639153440320(Globe)",
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.amber,
-            fontVariations: [FontVariation('wght', 800)],
+        Flexible(
+          child: Text(
+            "+639611400124(Smart), +639153440320(Globe)",
+            softWrap: true,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.amber,
+              fontVariations: [FontVariation('wght', 800)],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Column titleFields() {
-    return const Column(
+  Row fullName() {
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -57,12 +60,16 @@ class ContactInfo extends StatelessWidget {
             fontVariations: [FontVariation('wght', 400)],
           ),
         ),
-        Text(
-          "Mobile Number : ",
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-            fontVariations: [FontVariation('wght', 400)],
+        Flexible(
+          child: Text(
+            "James Carlo Desipida Salayo",
+            softWrap: true,
+            style: TextStyle(
+              overflow: TextOverflow.clip,
+              fontSize: 18,
+              color: Colors.amber,
+              fontVariations: [FontVariation('wght', 800)],
+            ),
           ),
         ),
       ],
