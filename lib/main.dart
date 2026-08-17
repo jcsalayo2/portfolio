@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/firebase_options.dart';
-
-import 'home.dart';
+import 'package:portfolio/home.dart';
+import 'package:portfolio/theme/portfolio_scroll_behavior.dart';
+import 'package:portfolio/theme/portfolio_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'My Portfolio',
-      theme: ThemeData(
-        fontFamily: 'OpenSans',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-        useMaterial3: true,
+      theme: buildPortfolioTheme(),
+      scrollBehavior: const PortfolioScrollBehavior(),
+      home: const SafeArea(
+        child: SelectionArea(child: Home(title: 'Portfolio')),
       ),
-      home:
-          const SafeArea(child: SelectionArea(child: Home(title: 'Portfolio'))),
     );
   }
 }

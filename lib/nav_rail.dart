@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/header_link_icons.dart';
 import 'package:portfolio/model/projects.dart';
 import 'package:portfolio/service/previous_projects_service.dart';
+import 'package:portfolio/theme/portfolio_theme.dart';
 import 'package:universal_html/html.dart' as html;
 
 class NavRail extends StatefulWidget {
@@ -19,11 +20,13 @@ class NavRail extends StatefulWidget {
 
 class _NavRailState extends State<NavRail> {
   int _selectedIndex = 0;
+  late final Future<List<Project>> _projectsFuture =
+      PreviousProjectsService().getPreviousProjects();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Project>>(
-      future: PreviousProjectsService().getPreviousProjects(),
+      future: _projectsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Padding(
@@ -138,19 +141,22 @@ class _ProjectTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: InkWell(
+        child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(24),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: isSelected ? Colors.amber : Colors.transparent,
-                width: 2,
-              ),
+            color: isSelected
+                ? PortfolioColors.accent.withValues(alpha: 0.15)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: isSelected
+                  ? PortfolioColors.accent
+                  : PortfolioColors.accent.withValues(alpha: 0.25),
             ),
           ),
           child: Text(
@@ -303,9 +309,18 @@ class _ProjectDetail extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(isPortrait ? 16 : 24),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFF2A2A2A),
+        border: Border.all(
+          color: PortfolioColors.accent.withValues(alpha: 0.35),
+        ),
+        borderRadius: BorderRadius.circular(12),
+        color: PortfolioColors.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: isPortrait || !hasImage
           ? Column(
